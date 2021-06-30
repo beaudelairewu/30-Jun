@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <title>30-Jun</title>
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- <button class="btn btn-outline-dark btn-sm" type="button" onclick="document.getElementById('showdate').innerHTML = Date() ">Display Date</button>
+                <p id="showdate"></p> -->
+                <h3>Current Date</h3>
+                <p id="date"></p>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-outline-dark btn-sm" type="button" onclick="document.getElementById('showname').innerHTML = 'Beam' ">Display Name</button>
+                <p id="showname"></p>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-outline-dark btn-sm" onclick="alert('Welcome!')">Show Aleart</button>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h3>Two ways binding</h3>
+                <input class="twoways" type="text" onkeyup="twoWay(event)">
+                <input class="twoways" type="text" onkeyup="twoWay(event)">
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h3>Current Weather in Chiangmai</h3><br>
+                <button class="btn btn-outline-dark btn-sm" onclick="fgetWeather()">Show Weather</button><br><br>
+                <p>Temperature: <a id="temp"></a></p> 
+                <p>Weather: <a id="weather"></a></p> 
+                <p>Humidity: <a id="humid"></a></p> 
+                <p>Pressure: <a id="pres"></a></p> 
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h3>Random Number</h3>
+                <p>Select Number Range</p>
+                Min<input id="numMin" type="number" min="1" max="100000" >
+                Max<input id="numMax" type="number" min="1" max="100000" >
+                <button class="btn btn-outline-dark btn-sm" onclick="randomNum()">Which my Luck!</button><br><br>
+                <p id="ranResult" ></p><hr>
+            </div>
+            <div class="col-md-12">
+                <h3>Calculator</h3>
+                1st term<input id="term1" type="number">
+                2nd term<input id="term2" type="number"><br><br>
+                <button class="btn btn-outline-dark btn-sm" onclick="plus()">+</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="minus()">-</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="multiply()">x</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="divide()">/</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="modular()">mod</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="expo()">^</button><br>
+                <p id="calAns"></p>
+            </div>
+            <div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+    
+
+    <script>
+        document.getElementById("date").innerHTML = Date()
+        
+        twoWay = function(event){
+            var elem =document.getElementsByClassName(event.currentTarget.className);
+            for(var key in elem){
+                elem[key].value=event.currentTarget.value;
+            }
+        }
+        addTask = function(event){
+
+        }
+        
+        async function fgetWeather () {
+            let url = "https://api.openweathermap.org/data/2.5/weather?lat=18.764259&lon=98.992752&appid=a819ff9153428073c6299bd03ffe7a59"
+            let response = await fetch(url);
+            let data = await response.json();
+            console.log(data.weather.main)
+            
+            let weather = data.weather.main
+            let temp = data.main.temp
+            let pres = data.main.pressure
+            let humid = data.main.humidity
+            // return data;
+            document.getElementById("temp").innerHTML = temp
+            document.getElementById("weather").innerHTML = weather
+            document.getElementById("pres").innerHTML = pres
+            document.getElementById("humid").innerHTML = humid
+        }
+        randomNum = function(){
+            let min = document.getElementById("numMin").value
+            let max = document.getElementById("numMax").value
+            if((min||max) == null){
+                document.getElementById("ranResult").innerHTML = "Select Greatest Number First"
+            }else{
+                let ans = Math.floor(Math.random() * (max - min) + min)
+                document.getElementById("ranResult").innerHTML = ("Random Number = " + ans) 
+            }
+        }
+        plus = function(){
+            document.getElementById("calAns").innerHTML = parseInt(document.getElementById("term1").value) + parseInt(document.getElementById("term2").value)
+        }
+
+        minus = function(){
+            document.getElementById("calAns").innerHTML =  parseInt(document.getElementById("term1").value) - parseInt(document.getElementById("term2").value)
+        }
+
+        multiply = function(){
+            document.getElementById("calAns").innerHTML =  parseInt(document.getElementById("term1").value) * parseInt(document.getElementById("term2").value)
+        }
+
+        divide = function(){
+            document.getElementById("calAns").innerHTML =  parseInt(document.getElementById("term1").value) / parseInt(document.getElementById("term2").value)
+        }
+
+        modular = function(){
+            document.getElementById("calAns").innerHTML =  parseInt(document.getElementById("term1").value) % parseInt(document.getElementById("term2").value)
+        }
+
+        expo = function(){
+            document.getElementById("calAns").innerHTML =  parseInt(document.getElementById("term1").value) ** parseInt(document.getElementById("term2").value)
+        }
+
+    </script>
+</body>
+</html>
